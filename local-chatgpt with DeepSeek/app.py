@@ -4,6 +4,7 @@ import json,csv,os
 from datetime import datetime,timedelta
 ollama_client = OpenAI(base_url="http://localhost:11434/v1",api_key="ollama")
 ollama_deepseek_model={'client':'OpenAI','api':'ollama','model':'deepseek-r1:1.5b'}
+ollama_gemma3_model={'client':'OpenAI','api':'ollama','model':'gemma3:latest'}
 def collect_chat_history(response):
   file_exist=os.path.exists(r'D:\Github\AI-Engineering\Pratice\chat_history.csv')
   with open(r'D:\Github\AI-Engineering\Pratice\chat_history.csv','a',newline='', encoding="utf-8-sig") as save_response:
@@ -33,7 +34,7 @@ async def start_chat():
 async def tool(input_message):
     interaction = cl.user_session.get("interaction")
     interaction.append({"role": "user","content": input_message})
-    response=chat_with_openai(ollama_client,interaction,ollama_deepseek_model)
+    response=chat_with_openai(ollama_client,interaction,ollama_gemma3_model)
     interaction.append({"role": "assistant","content": response.choices[0].message.content})
     return response
 @cl.on_message
